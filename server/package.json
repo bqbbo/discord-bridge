@@ -1,25 +1,25 @@
 {
-  "name": "discord-bridge-web-server",
-  "version": "1.0.0",
-  "description": "Web server for discord bridge",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bqbbo/discord-bridge.git"
-  },
-  "author": "bqbbo",
-  "license": "SEE LICENSE IN LICENSE",
-  "bugs": {
-    "url": "https://github.com/bqbbo/discord-bridge/issues"
-  },
-  "homepage": "https://github.com/bqbbo/discord-bridge#readme",
-  "dependencies": {
-    "discord.js": "^14.26.4",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "nodemon": "^3.1.14"
-  }
+    "name": "discord-bridge-web-server",
+    "version": "1.0.0",
+    "description": "Web server for discord bridge",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bqbbo/discord-bridge.git"
+    },
+    "author": "bqbbo",
+    "license": "SEE LICENSE IN LICENSE",
+    "bugs": {
+        "url": "https://github.com/bqbbo/discord-bridge/issues"
+    },
+    "homepage": "https://github.com/bqbbo/discord-bridge#readme",
+    "dependencies": {
+        "discord.js": "^14.26.4",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "nodemon": "^3.1.14"
+    }
 }
