@@ -7,10 +7,12 @@ import "./styles/App.css";
 
 const App = () => {
     return (
-        <div id="app">
+        <div className="app">
             <Header />
-            <ChannelList />
-            <DiscordBody />
+            <main className="main-content">
+                <ChannelList />
+                <DiscordBody />
+            </main>
             <Footer />
         </div>
     );

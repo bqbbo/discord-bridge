@@ -1,7 +1,7 @@
 import "../styles/DiscordBody.css";
 
 const DiscordBody = () => {
-    return <p>Discord Body</p>;
+    return <div className="discord-body">Discord Body</div>;
 };
 
 export default DiscordBody;

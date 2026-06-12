@@ -1,7 +1,7 @@
 import "../styles/ChannelList.css";
 
 const ChannelList = () => {
-    return <p>Channel List</p>;
+    return <aside className="channel-list">Channel List</aside>;
 };
 
 export default ChannelList;

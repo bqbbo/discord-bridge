@@ -1,7 +1,7 @@
 import "../styles/Header.css";
 
-const Footer = () => {
-    return <p>Footer</p>;
+const Header = () => {
+    return <div className="header">Header</div>;
 };
 
-export default Footer;
+export default Header;
