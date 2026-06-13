@@ -8,7 +8,7 @@ const Header = () => {
             <div className="status-box">
                 <img
                     className="status-icon"
-                    src="/img/no-wifi.png"
+                    src="/img/disconnected.png"
                     alt="Status Icon"
                 />
                 <p id="status-text" className="status-text">
