@@ -1,8 +1,15 @@
 import "../styles/Button.css";
 
+type TextInputProps = {
+    placeholder: string;
+    className?: string;
+    onChange: (value: string) => void;
+};
+
 type ButtonProps = {
     text: string;
     onClick: () => void;
+    className?: string;
 };
 
 type SocialButtonProps = {
@@ -11,9 +18,22 @@ type SocialButtonProps = {
     link: string;
 };
 
-const Button = ({ text, onClick }: ButtonProps) => {
+const TextInput = ({ placeholder, className }: TextInputProps) => {
     return (
-        <button className="button component-voice" onClick={onClick}>
+        <input
+            className={`text-input component-input ${className || ""}`}
+            type="text"
+            placeholder={placeholder}
+        />
+    );
+};
+
+const Button = ({ text, onClick, className }: ButtonProps) => {
+    return (
+        <button
+            className={`button component-button ${className || ""}`}
+            onClick={onClick}
+        >
             {text}
         </button>
     );
@@ -27,4 +47,4 @@ const SocialButton = ({ text, image, link }: SocialButtonProps) => {
     );
 };
 
-export { Button, SocialButton };
+export { TextInput, Button, SocialButton };

@@ -8,6 +8,7 @@
 
     --accent: #5865f2; /* Discord blurple */
     --border: #202225; /* defined border color */
+    --input-border: #595b5e; /* input field border color */
 
     --text-primary: #ffffff;
     --text-secondary: #b9bbbe;
@@ -28,4 +29,14 @@
 .component-tertiary {
     background-color: var(--bg-tertiary);
     color: var(--text-muted);
+}
+
+.component-input {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.component-button {
+    background-color: var(--accent);
+    color: var(--text-primary);
 }

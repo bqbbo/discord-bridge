@@ -7,7 +7,7 @@ const Header = () => {
         <header className="header component-secondary">
             <div className="status-box">
                 <img
-                    class="status-icon"
+                    className="status-icon"
                     src="/img/no-wifi.png"
                     alt="Status Icon"
                 />
