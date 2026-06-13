@@ -1,5 +1,6 @@
-import APIForm from "./APIForm";
 import VoiceControl from "./VoiceControl";
+import NetStats from "./NetStats";
+import APIForm from "./APIForm";
 import ChannelText from "./ChannelText";
 
 import "../styles/Footer.css";
@@ -13,9 +14,10 @@ const Footer = () => {
     return (
         <div className="footer component-tertiary">
             <VoiceControl />
+            <NetStats />
             <APIForm />
             <ChannelText />
-            <div className="copyright">
+            <div className="copyright component-tertiary">
                 <p>
                     &copy; {getYear()} Discord Bridge - For non-commercial use
                     only.

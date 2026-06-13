@@ -1,4 +1,6 @@
-.voice-control {
+.net-stats {
+    display: flex;
+    flex-direction: column;
     border-top: 1px solid var(--border-strong);
     border-right: 1px solid var(--border-strong);
 }

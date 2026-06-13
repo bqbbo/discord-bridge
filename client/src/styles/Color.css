@@ -8,7 +8,8 @@
 
     --accent: #5865f2; /* Discord blurple */
     --border: #202225; /* defined border color */
-    --input-border: #595b5e; /* input field border color */
+    --border-strong: #3c3d3d; /* stronger border color for header/footer */
+    --input-border: #6c6e72; /* input field border color */
 
     --text-primary: #ffffff;
     --text-secondary: #b9bbbe;

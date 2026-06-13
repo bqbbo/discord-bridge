@@ -5,11 +5,10 @@
     grid-row: 3;
     grid-column: 1 / -1;
     background-color: var(--bg-secondary);
-    border-top: 1px solid var(--border);
 }
 
 .footer > .voice-control {
-    grid-row: 1 / -1;
+    grid-row: 1;
     grid-column: 1;
 }
 
@@ -23,16 +22,19 @@
     grid-column: 3;
 }
 
+.footer > .net-stats {
+    grid-row: 2;
+    grid-column: 1;
+}
+
 .footer > .copyright {
     grid-row: 2;
     grid-column: 2 / -1;
     text-align: center;
     font-size: 0.8em;
-    background-color: var(--bg-tertiary);
-    color: var(--text-muted);
 }
 
 .footer > .copyright > p {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border-strong);
     padding: 5px;
 }
