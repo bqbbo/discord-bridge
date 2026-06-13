@@ -6,7 +6,11 @@ type ButtonProps = {
 };
 
 const Button = ({ text, onClick }: ButtonProps) => {
-    return <button onClick={onClick}>{text}</button>;
+    return (
+        <button className="button component-voice" onClick={onClick}>
+            {text}
+        </button>
+    );
 };
 
 export default Button;

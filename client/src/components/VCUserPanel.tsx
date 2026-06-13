@@ -1,5 +1,5 @@
 const VCUserPanel = () => {
-    return <p>VC User Panel</p>;
+    return <p className="vc-user-panel component-secondary">VC User Panel</p>;
 };
 
 export default VCUserPanel;

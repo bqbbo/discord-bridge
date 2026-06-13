@@ -1,7 +1,24 @@
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
     grid-row: 1;
     grid-column: 1 / -1;
+    border-bottom: 1px solid var(--border);
+}
+
+.header > .status-box {
+    grid-row: 1;
+    grid-column: 1;
+    border-right: 1px solid var(--border);
+}
+
+.header > .app-title {
+    grid-row: 1;
+    grid-column: 2;
+    border-right: 1px solid var(--border);
+}
+
+.header > .socials {
+    grid-row: 1;
+    grid-column: 3;
 }

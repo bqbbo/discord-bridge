@@ -4,6 +4,7 @@ import DiscordBody from "./components/DiscordBody";
 import Footer from "./components/Footer";
 
 import "./styles/App.css";
+import "./styles/Color.css";
 
 const App = () => {
     return (

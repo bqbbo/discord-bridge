@@ -1,13 +1,8 @@
-import Button from "./Button";
+import "../styles/VoiceControl.css";
 
 const VoiceControl = () => {
     return (
-        <div className="voice-control">
-            <Button
-                text="Voice Control"
-                onClick={() => console.log("Voice Control Clicked")}
-            />
-        </div>
+        <div className="voice-control component-tertiary">Voice Control</div>
     );
 };
 

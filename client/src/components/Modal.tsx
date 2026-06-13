@@ -1,7 +1,7 @@
 import "../styles/Modal.css";
 
 const Modal = () => {
-    return <p>Modal</p>;
+    return <p className="modal component-secondary">Modal</p>;
 };
 
 export default Modal;

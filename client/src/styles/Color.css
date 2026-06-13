@@ -1,0 +1,31 @@
+:root {
+    /* Discord-themed palette */
+    --bg-primary: #36393f; /* main background */
+    --bg-secondary: #2f3136; /* panels / secondary surfaces */
+    --bg-hover: #4f545c; /* hover states */
+    --bg-active: #2b2f33; /* active/pressed */
+    --bg-tertiary: #202225; /* copyright and muted sections */
+
+    --accent: #5865f2; /* Discord blurple */
+    --border: #202225; /* defined border color */
+
+    --text-primary: #ffffff;
+    --text-secondary: #b9bbbe;
+    --text-muted: #72767d;
+    --text-link: #00aff4;
+}
+
+.component-primary {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.component-secondary {
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+.component-tertiary {
+    background-color: var(--bg-tertiary);
+    color: var(--text-muted);
+}
