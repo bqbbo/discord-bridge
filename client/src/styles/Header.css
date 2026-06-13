@@ -1,24 +1,30 @@
 .header {
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
+    grid-template-columns: 200px 1fr 125px;
     grid-row: 1;
     grid-column: 1 / -1;
     border-bottom: 1px solid var(--border);
 }
 
 .header > .status-box {
+    padding: 10px;
     grid-row: 1;
     grid-column: 1;
     border-right: 1px solid var(--border);
 }
 
 .header > .app-title {
+    padding: 10px;
     grid-row: 1;
     grid-column: 2;
     border-right: 1px solid var(--border);
 }
 
 .header > .socials {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px;
     grid-row: 1;
     grid-column: 3;
 }
