@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { createBot, destroyBot } from "./bot.js";
+
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -17,7 +19,25 @@ const io = new Server(server);
 
 io.on("connection", (socket) => {
     console.log(`User connected: IP ${socket.handshake.address}`);
-    socket.on("disconnect", () => {
+
+    socket.on("bot:connect", async (token) => {
+        const bot = await createBot(socket.id, token);
+        try {
+            const client = await createBot(socket.id, token);
+            socket.emit("bot:status", {
+                status: "connected",
+                tag: client.user.tag,
+            });
+        } catch (error) {
+            socket.emit("bot:status", {
+                status: "error",
+                message: error.message,
+            });
+        }
+    });
+
+    socket.on("disconnect", async () => {
+        await destroyBot(socket.id);
         console.log(`User disconnected: IP ${socket.handshake.address}`);
     });
 });
