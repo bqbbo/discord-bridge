@@ -1,4 +1,5 @@
-import { SocialButton } from "./Button";
+import ServerSelect from "./ServerSelect";
+import MiscButtons from "./MiscButtons";
 
 import "../styles/Header.css";
 
@@ -16,18 +17,8 @@ const Header = () => {
                 </p>
             </div>
             <div className="app-title">Discord Bridge</div>
-            <div className="socials">
-                <SocialButton
-                    text="GitHub"
-                    image="/img/github.svg"
-                    link="https://github.com/bqbbo/discord-bridge"
-                />
-                <SocialButton
-                    text="Discord Developers"
-                    image="/img/discord-dev.png"
-                    link="https://discord.com/developers/applications"
-                />
-            </div>
+            <ServerSelect />
+            <MiscButtons />
         </header>
     );
 };

@@ -1,7 +1,7 @@
 .footer {
     display: grid;
     grid-template-columns: 200px calc(50% - 100px) 1fr;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: 1fr 30px;
     grid-row: 3;
     grid-column: 1 / -1;
     background-color: var(--bg-secondary);
@@ -27,14 +27,29 @@
     grid-column: 1;
 }
 
-.footer > .copyright {
+.footer > .webnote-container {
+    display: grid;
+    grid-template-columns: calc(100% - 100px) 100px;
     grid-row: 2;
     grid-column: 2 / -1;
+}
+
+.footer > .webnote-container > .copyright {
+    border-top: 1px solid var(--border-strong);
+    grid-column: 1;
     text-align: center;
     font-size: 0.8em;
 }
 
-.footer > .copyright > p {
+.footer > .webnote-container > .copyright > p {
+    padding-top: 5px;
+}
+
+.footer > .webnote-container > .socials {
     border-top: 1px solid var(--border-strong);
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3px;
+    grid-column: 2;
 }

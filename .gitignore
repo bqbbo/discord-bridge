@@ -421,3 +421,4 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/node,react,reactnative,windows,macos,linux,visualstudiocode
 
 server/public/*
+.vscode/

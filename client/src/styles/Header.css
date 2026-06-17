@@ -1,6 +1,6 @@
 .header {
     display: grid;
-    grid-template-columns: 200px 1fr 125px;
+    grid-template-columns: 200px 1fr 400px 300px;
     grid-row: 1;
     grid-column: 1 / -1;
     border-bottom: 1px solid var(--border);
@@ -33,12 +33,21 @@
     font-weight: bold;
 }
 
-.header > .socials {
+.header > .server-select {
+    display: flex;
+    align-items: center;
+    grid-row: 1;
+    grid-column: 3;
+    border-right: 1px solid var(--border);
+    padding-left: 10px;
+}
+
+.header > .misc-buttons {
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: space-evenly;
     padding-left: 5px;
     grid-row: 1;
-    grid-column: 3;
+    grid-column: 4;
 }

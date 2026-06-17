@@ -1,3 +1,4 @@
+import { SocialButton } from "./Button";
 import VoiceControl from "./VoiceControl";
 import NetStats from "./NetStats";
 import APIForm from "./APIForm";
@@ -17,11 +18,25 @@ const Footer = () => {
             <NetStats />
             <APIForm />
             <ChannelText />
-            <div className="copyright component-tertiary">
-                <p>
-                    &copy; {getYear()} Discord Bridge - For non-commercial use
-                    only.
-                </p>
+            <div className="webnote-container">
+                <div className="copyright component-tertiary">
+                    <p>
+                        &copy; {getYear()} Discord Bridge - For non-commercial
+                        use only.
+                    </p>
+                </div>
+                <div className="socials">
+                    <SocialButton
+                        text="GitHub"
+                        image="/img/github.svg"
+                        link="https://github.com/bqbbo/discord-bridge"
+                    />
+                    <SocialButton
+                        text="Discord Developers"
+                        image="/img/discord-dev.png"
+                        link="https://discord.com/developers/applications"
+                    />
+                </div>
             </div>
         </div>
     );
