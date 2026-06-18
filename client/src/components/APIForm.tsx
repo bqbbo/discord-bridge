@@ -8,8 +8,12 @@ const APIForm = () => {
     const [token, setToken] = useState("");
     return (
         <div className="api-form component-secondary">
-            <div className="api-form-input-container">
-                <TextInput placeholder="Enter API Key" onChange={setToken} />
+            <div className="api-form-input">
+                <TextInput
+                    className="token-input"
+                    placeholder="Enter API Key"
+                    onChange={setToken}
+                />
                 <Button
                     text="Connect"
                     onClick={async () => await handleConnect(token)}
