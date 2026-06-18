@@ -15,8 +15,8 @@ const createBot = async (socketID, token) => {
     try {
         await bot.login(token);
     } catch (error) {
-        console.error("Failed to login bot:", error);
-        return null;
+        destroyBot(socketID);
+        throw error;
     }
 
     activatedBots.set(socketID, bot);

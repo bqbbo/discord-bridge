@@ -13,22 +13,52 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProd = process.env.NODE_ENV === "production";
 console.log(`Running in ${isProd ? "production" : "development"} mode`);
 
+// Determine ports early so we can pass the dev port into Vite's HMR config
+const PORT_STR =
+    isProd ? process.env.DC_BRIDGE_PORT : process.env.DC_BRIDGE_PORT_DEV;
+if (!PORT_STR) {
+    console.error("Error: PORT environment variable is not set");
+    process.exit(1);
+}
+const PORT = Number(PORT_STR);
+
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
+
+if (isProd) {
+    app.use(express.static(path.join(__dirname, "../public")));
+    app.get(/(.*)/, (req, res) => {
+        res.sendFile(path.join(__dirname, "../public/index.html"));
+    });
+} else {
+    const { createServer: createViteServer } = await import("vite");
+    const vite = await createViteServer({
+        root: path.join(__dirname, "../../client"),
+        server: {
+            middlewareMode: true,
+            // Disable HMR since Vite middleware mode doesn't support websocket upgrades
+            // Client will do full page refresh on code changes instead
+            hmr: false,
+        },
+        appType: "spa",
+    });
+    app.use(vite.middlewares);
+}
 
 io.on("connection", (socket) => {
     console.log(`User connected: IP ${socket.handshake.address}`);
 
     socket.on("bot:connect", async (token) => {
-        const bot = await createBot(socket.id, token);
+        socket.emit("bot:status", { status: "connecting" });
         try {
-            const client = await createBot(socket.id, token);
+            const clientBot = await createBot(socket.id, token);
             socket.emit("bot:status", {
                 status: "connected",
-                tag: client.user.tag,
+                tag: clientBot.user.tag,
             });
         } catch (error) {
+            console.error("Error connecting bot:", error);
             socket.emit("bot:status", {
                 status: "error",
                 message: error.message,
@@ -41,28 +71,6 @@ io.on("connection", (socket) => {
         console.log(`User disconnected: IP ${socket.handshake.address}`);
     });
 });
-
-if (isProd) {
-    app.use(express.static(path.join(__dirname, "../public")));
-    app.get(/(.*)/, (req, res) => {
-        res.sendFile(path.join(__dirname, "../public/index.html"));
-    });
-} else {
-    const { createServer: createViteServer } = await import("vite");
-    const vite = await createViteServer({
-        root: path.join(__dirname, "../../client"),
-        server: { middlewareMode: true },
-        appType: "spa",
-    });
-    app.use(vite.middlewares);
-}
-
-const PORT =
-    isProd ? process.env.DC_BRIDGE_PORT : process.env.DC_BRIDGE_PORT_DEV;
-if (!PORT) {
-    console.error("Error: PORT environment variable is not set");
-    process.exit(1);
-}
 
 server.listen(PORT, () => {
     console.log(`Discord Bridge listening on port ${PORT}`);

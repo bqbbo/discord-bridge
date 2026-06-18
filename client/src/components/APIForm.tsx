@@ -1,7 +1,23 @@
+import { useState } from "react";
+import { Button, TextInput } from "./Button";
+import { handleConnect } from "../scripts/botConnect";
+
 import "../styles/APIForm.css";
 
 const APIForm = () => {
-    return <div className="api-form component-secondary">API Form</div>;
+    const [token, setToken] = useState("");
+    return (
+        <div className="api-form component-secondary">
+            <div className="api-form-input-container">
+                <TextInput placeholder="Enter API Key" onChange={setToken} />
+                <Button
+                    text="Connect"
+                    onClick={async () => await handleConnect(token)}
+                />
+            </div>
+            <div className="api-form-info">API Form Info</div>
+        </div>
+    );
 };
 
 export default APIForm;

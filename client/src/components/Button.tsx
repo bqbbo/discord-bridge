@@ -2,8 +2,8 @@ import "../styles/Button.css";
 
 type TextInputProps = {
     placeholder: string;
+    onChange: ((value: string) => void) | undefined;
     className?: string;
-    onChange: (value: string) => void;
 };
 
 type ButtonProps = {
@@ -18,12 +18,13 @@ type SocialButtonProps = {
     link: string;
 };
 
-const TextInput = ({ placeholder, className }: TextInputProps) => {
+const TextInput = ({ placeholder, onChange, className }: TextInputProps) => {
     return (
         <input
             className={`text-input component-input ${className || ""}`}
             type="text"
             placeholder={placeholder}
+            onChange={(e) => onChange && onChange(e.target.value)} // Call useState setter provided by parent component
         />
     );
 };
