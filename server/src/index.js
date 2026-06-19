@@ -59,7 +59,7 @@ io.on("connection", (socket) => {
         console.log(`Attempting to connect bot: ${token}`);
         socket.emit("bot:status", { status: "connecting" });
         try {
-            const clientBot = await createBot(socket.id, token);
+            const clientBot = await createBot(socket.id, token, io);
             socket.emit("bot:status", {
                 status: "connected",
                 tag: clientBot.user.tag,
@@ -89,7 +89,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", async () => {
-        await destroyBot(socket.id);
+        await destroyBot(socket.id, io);
         console.log(`User disconnected: IP ${socket.handshake.address}`);
     });
 });
