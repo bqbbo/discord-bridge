@@ -1,5 +1,9 @@
 import { Client, GatewayIntentBits } from "discord.js";
 
+// Each bot process can be extremely intensive to the server.
+// You are at risk of DDoS if you allow unlimited bots to connect.
+const BOT_LIMIT = Number(process.env.DC_BRIDGE_BOT_LIMIT) || 3;
+
 // activatedBots now maps socketID -> Discord Client
 const activatedBots = new Map(); // socketID -> Client
 // botCreatedAt maps socketID -> timestamp when the bot was instantiated
@@ -13,6 +17,12 @@ const createBot = async (socketID, token, io) => {
     }
 
     await destroyBot(socketID, io);
+
+    if (activatedBots.size >= BOT_LIMIT) {
+        throw new Error(
+            `Bot limit reached. Maximum allowed bots: ${BOT_LIMIT}`,
+        );
+    }
 
     const bot = new Client({
         intents: [
