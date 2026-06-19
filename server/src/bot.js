@@ -31,4 +31,13 @@ const destroyBot = async (socketID) => {
     }
 };
 
-export { createBot, destroyBot };
+const isBotConnected = (socketID) => {
+    const bot = activatedBots.get(socketID);
+    return bot && bot.isReady && bot.isReady();
+};
+
+const getBot = (socketID) => {
+    return activatedBots.get(socketID);
+};
+
+export { createBot, destroyBot, isBotConnected, getBot };

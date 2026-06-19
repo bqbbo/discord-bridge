@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { createBot, destroyBot } from "./bot.js";
+import { createBot, destroyBot, isBotConnected, getBot } from "./bot.js";
 
 dotenv.config();
 
@@ -63,6 +63,19 @@ io.on("connection", (socket) => {
                 status: "error",
                 message: error.message,
             });
+
+            // Check connection status after 3 seconds to clarify ambiguous error state
+            setTimeout(() => {
+                const isConnected = isBotConnected(socket.id);
+                const finalStatus = isConnected ? "connected" : "disconnected";
+                const bot = getBot(socket.id);
+
+                socket.emit("bot:status", {
+                    status: finalStatus,
+                    tag: isConnected ? bot.user.tag : undefined,
+                    message: isConnected ? undefined : "Bot failed to connect.",
+                });
+            }, 3000);
         }
     });
 
