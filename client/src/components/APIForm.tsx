@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, TextInput } from "./Button";
-import { handleConnect } from "../scripts/botConnect";
+import { handleConnect } from "../scripts/botSocket";
 
 import "../styles/APIForm.css";
 
