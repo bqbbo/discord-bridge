@@ -10,11 +10,12 @@ const APIForm = () => {
         <div className="api-form component-secondary">
             <div className="api-form-input">
                 <TextInput
-                    className="token-input"
+                    className="api-form-token-input"
                     placeholder="Enter API Key"
                     onChange={setToken}
                 />
                 <Button
+                    className="api-form-connect-button"
                     text="Connect"
                     onClick={async () => await handleConnect(token)}
                 />

@@ -17,9 +17,14 @@
     border-right: 1px dashed var(--border);
 }
 
-.api-form > .api-form-input > .token-input {
+.api-form > .api-form-input > .api-form-token-input {
     width: 100%;
     padding-right: 10px;
+}
+
+.api-form > .api-form-input > .api-form-connect-button {
+    height: 35px;
+    border-left: none;
 }
 
 .api-form > .api-form-info {

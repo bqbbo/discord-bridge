@@ -1,6 +1,10 @@
 .text-input {
     border: 2px solid var(--input-border);
     padding: 8px;
+    font-size: inherit;
+    line-height: 1;
+    box-sizing: border-box;
+    height: 35px;
 }
 
 .button {
@@ -8,6 +12,8 @@
     padding: 8px 16px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    box-sizing: border-box;
+    height: 35px;
 }
 
 .button:hover {
