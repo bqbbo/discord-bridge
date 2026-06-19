@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { Button, TextInput } from "./Button";
-import { botSocket, handleConnect, getSocketID } from "../scripts/botSocket";
+import {
+    botSocket,
+    handleConnect,
+    handleDisconnect,
+    getSocketID,
+} from "../scripts/botSocket";
 
 import useStatus from "../contexts/StatusContext";
 import { APIFormUser } from "../scripts/statusRendering";
@@ -53,7 +58,12 @@ const APIForm = () => {
                 <Button
                     className="api-form-connect-button"
                     text="Connect"
-                    onClick={async () => await handleConnect(token)}
+                    onClick={async () => handleConnect(token)}
+                />
+                <Button
+                    className="api-form-disconnect-button"
+                    text="Disconnect"
+                    onClick={async () => handleDisconnect()}
                 />
             </div>
             <div className="api-form-info">

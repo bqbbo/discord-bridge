@@ -27,6 +27,11 @@
     border-left: none;
 }
 
+.api-form > .api-form-input > .api-form-disconnect-button {
+    height: 35px;
+    border-left: none;
+}
+
 .api-form > .api-form-info {
     font-size: 14px;
     display: flex;

@@ -9,6 +9,10 @@ const handleConnect = (token: string) => {
     botSocket.emit("bot:connect", token);
 };
 
+const handleDisconnect = () => {
+    botSocket.emit("bot:disconnect");
+};
+
 const getSocketID = () => {
     return botSocket.id || "Unknown";
 };
@@ -39,4 +43,4 @@ const measurePing = (
     botSocket.emit("ping:request", clientTs);
 };
 
-export { botSocket, getSocketID, handleConnect, measurePing };
+export { botSocket, getSocketID, handleDisconnect, handleConnect, measurePing };

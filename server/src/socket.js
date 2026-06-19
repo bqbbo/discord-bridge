@@ -157,6 +157,11 @@ const initSocket = (io) => {
             }
         });
 
+        socket.on("bot:disconnect", async () => {
+            await destroyBot(socket.id, io);
+            socket.emit("bot:status", { status: "disconnected" });
+        });
+
         socket.on("disconnect", async () => {
             await destroyBot(socket.id, io);
             console.log(`User disconnected: IP ${socket.handshake.address}`);
