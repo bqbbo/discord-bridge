@@ -5,7 +5,13 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { createBot, destroyBot, isBotConnected, getBot } from "./bot.js";
+import {
+    activatedBots,
+    createBot,
+    destroyBot,
+    isBotConnected,
+    getBot,
+} from "./bot.js";
 
 dotenv.config();
 
@@ -50,6 +56,7 @@ io.on("connection", (socket) => {
     console.log(`User connected: IP ${socket.handshake.address}`);
 
     socket.on("bot:connect", async (token) => {
+        console.log(`Attempting to connect bot: ${token}`);
         socket.emit("bot:status", { status: "connecting" });
         try {
             const clientBot = await createBot(socket.id, token);
@@ -77,6 +84,8 @@ io.on("connection", (socket) => {
                 });
             }, 3000);
         }
+
+        console.log(`Current bots: ${[...activatedBots.keys()]}`);
     });
 
     socket.on("disconnect", async () => {
