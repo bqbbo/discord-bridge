@@ -1,15 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 import { Statuses } from "../types/statuses";
 
-const handleUpdateStatus = async (update: string) => {
+const handleUpdateStatus = (update: string) => {
     console.log("Bot update:", update); // Implement update handling here
 };
 
-const handleErrorStatus = async (error: string) => {
+const handleErrorStatus = (error: string) => {
     console.error("Bot error:", error); // Implement alert system here
 };
 
-const handleStatusChange = async (
+const handleStatusChange = (
     socketStatus: Statuses,
     setStatus: Dispatch<SetStateAction<Statuses>>,
 ) => {

@@ -13,7 +13,7 @@ const getYear = () => {
 
 const Footer = () => {
     return (
-        <div className="footer component-tertiary">
+        <footer className="footer component-tertiary">
             <VoiceControl />
             <NetStats />
             <APIForm />
@@ -38,7 +38,7 @@ const Footer = () => {
                     />
                 </div>
             </div>
-        </div>
+        </footer>
     );
 };
 

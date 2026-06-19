@@ -1,5 +1,5 @@
 import { botSocket } from "./botSocket";
-import { GuildsResponse } from "../types/socket";
+import { GuildsResponse } from "../types/bot";
 
 import { Statuses } from "../types/statuses";
 

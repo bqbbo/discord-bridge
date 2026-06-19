@@ -1,4 +1,4 @@
-const handleSendMessage = async (message: string) => {
+const handleSendMessage = (message: string) => {
     return message;
     // Implementation for sending message
 };

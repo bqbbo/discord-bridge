@@ -1,8 +1,11 @@
 import { useCallback, useState, useEffect } from "react";
 import { fetchGuilds } from "../scripts/botEnvironment";
 
-import { GuildsResponse } from "../types/socket";
+import { GuildsResponse } from "../types/bot";
 import useStatus from "../contexts/StatusContext";
+import useGuild from "../contexts/GuildContext";
+
+import { GuildInfo } from "../types/bot";
 
 import { Button, DropdownInput } from "./Button";
 
@@ -10,6 +13,7 @@ import "../styles/ServerSelect.css";
 
 const ServerSelect = () => {
     const { status } = useStatus();
+    const { setGuild } = useGuild();
     const [guilds, setGuilds] = useState<GuildsResponse["guilds"]>([]);
     const [selectedGuildId, setSelectedGuildId] = useState<string | null>(null);
 
@@ -27,9 +31,19 @@ const ServerSelect = () => {
     }, [status, doFetchGuilds]);
 
     const selectedGuild =
-        guilds.find((guild) => guild.id === selectedGuildId) ?? null;
+        guilds.find((guild: GuildInfo) => guild.id === selectedGuildId) ?? null;
 
-    const dropdownOptions = guilds.map((guild) => ({
+    // keep guild context in sync with the selected guild id
+    useEffect(() => {
+        if (selectedGuild) {
+            setGuild(selectedGuild);
+        } else {
+            // clear to an empty guild when nothing is selected
+            setGuild({ id: "", name: "" });
+        }
+    }, [selectedGuild, setGuild]);
+
+    const dropdownOptions = guilds.map((guild: GuildInfo) => ({
         label: guild.name,
         value: guild.id,
     }));

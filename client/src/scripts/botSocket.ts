@@ -5,7 +5,7 @@ const botSocket = io({
     transports: ["polling", "websocket"],
 });
 
-const handleConnect = async (token: string) => {
+const handleConnect = (token: string) => {
     botSocket.emit("bot:connect", token);
 };
 

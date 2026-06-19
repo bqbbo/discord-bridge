@@ -1,12 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import StatusProvider from "./contexts/StatusProvider";
+import GuildProvider from "./contexts/GuildProvider";
 import App from "./App";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
     <StatusProvider>
-        <StrictMode>
-            <App />
-        </StrictMode>
+        <GuildProvider>
+            <StrictMode>
+                <App />
+            </StrictMode>
+        </GuildProvider>
     </StatusProvider>,
 );
