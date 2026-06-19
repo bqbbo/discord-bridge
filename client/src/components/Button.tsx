@@ -8,8 +8,9 @@ type TextInputProps = {
 
 type DropdownInputProps = {
     placeholder: string;
-    options: string[];
+    options: Array<{ label: string; value: string }>;
     onChange: ((value: string) => void) | undefined;
+    value?: string | null;
     className?: string;
 };
 
@@ -40,12 +41,13 @@ const DropdownInput = ({
     placeholder,
     options,
     onChange,
+    value,
     className,
 }: DropdownInputProps) => {
     return (
         <select
             className={`dropdown-input component-input ${className || ""}`}
-            defaultValue=""
+            value={value ?? ""}
             onChange={(e) => onChange && onChange(e.target.value)} // Call useState setter provided by parent component
         >
             {/* Default option on page load */}
@@ -58,9 +60,9 @@ const DropdownInput = ({
                 <option value="" disabled>
                     {placeholder}
                 </option>
-            :   options.map((option, index) => (
-                    <option key={index} value={option}>
-                        {option}
+            :   options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                        {option.label}
                     </option>
                 ))
             }

@@ -103,19 +103,31 @@ const initSocket = (io) => {
             try {
                 const client = getBot(socket.id);
 
-                const guilds = client.guilds.cache.map((g) => {
-                    const guild = {
-                        id: g.id,
-                        name: g.name,
-                        iconURL:
-                            typeof g.iconURL === "function" ?
-                                g.iconURL({ size: 64 })
-                            :   null,
-                    };
-                    if (typeof g.memberCount === "number")
-                        guild.memberCount = g.memberCount;
-                    return guild;
-                });
+                const guilds = await Promise.all(
+                    client.guilds.cache.map(async (cachedGuild) => {
+                        const freshGuild = await client.guilds
+                            .fetch(cachedGuild.id)
+                            .catch(() => cachedGuild);
+
+                        return {
+                            id: freshGuild.id,
+                            name:
+                                freshGuild.name ||
+                                cachedGuild.name ||
+                                cachedGuild.id,
+                            iconURL:
+                                typeof freshGuild.iconURL === "function" ?
+                                    freshGuild.iconURL({ size: 64 })
+                                :   null,
+                            memberCount:
+                                typeof freshGuild.memberCount === "number" ?
+                                    freshGuild.memberCount
+                                : typeof cachedGuild.memberCount === "number" ?
+                                    cachedGuild.memberCount
+                                :   undefined,
+                        };
+                    }),
+                );
 
                 socket.emit("bot:guilds", {
                     status: "ok",

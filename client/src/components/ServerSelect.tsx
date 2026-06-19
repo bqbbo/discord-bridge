@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { fetchGuilds } from "../scripts/botEnvironment";
 
 import { GuildsResponse } from "../types/socket";
@@ -11,27 +11,29 @@ import "../styles/ServerSelect.css";
 const ServerSelect = () => {
     const { status } = useStatus();
     const [guilds, setGuilds] = useState<GuildsResponse["guilds"]>([]);
-    const [selectedGuild, setSelectedGuild] = useState<string | null>(null);
+    const [selectedGuildId, setSelectedGuildId] = useState<string | null>(null);
 
-    const doFetchGuilds = () => {
-        fetchGuilds((response) => {
+    const doFetchGuilds = useCallback(() => {
+        fetchGuilds(status, (response) => {
             // Don't check response status because an error state would be automatically emitted by the server
+            console.log("Fetched guilds:", response.guilds);
+            setSelectedGuildId(null);
             setGuilds(response.guilds);
         });
-    };
+    }, [status]);
 
     useEffect(() => {
-        if (status.status === "connected") doFetchGuilds();
+        if (status.status === "connected" || status.status === "disconnected")
+            doFetchGuilds();
+    }, [status, doFetchGuilds]);
 
-        // Clear on disconnect (deferred to avoid sync setState in effect)
-        if (status.status === "disconnected") {
-            const t = setTimeout(() => {
-                setGuilds([]);
-                setSelectedGuild(null);
-            }, 0);
-            return () => clearTimeout(t);
-        }
-    }, [status]);
+    const selectedGuild =
+        guilds.find((guild) => guild.id === selectedGuildId) ?? null;
+
+    const dropdownOptions = guilds.map((guild) => ({
+        label: guild.name,
+        value: guild.id,
+    }));
 
     return (
         <div className="server-select">
@@ -40,29 +42,22 @@ const ServerSelect = () => {
                 <DropdownInput
                     className="server-select-dropdown"
                     placeholder="No servers available"
-                    options={guilds.map((g) => g.name)}
-                    onChange={(value) => setSelectedGuild(value)}
+                    options={dropdownOptions}
+                    value={selectedGuildId}
+                    onChange={setSelectedGuildId}
                 />
                 <Button
                     className="server-select-refresh-button"
                     text="Refresh"
-                    onClick={() => {}}
+                    onClick={() => doFetchGuilds()}
                 />
             </div>
             <div className="server-select-info">
-                <p>Server Name: {selectedGuild || "Unknown"}</p>
-                <p>
-                    Server ID:{" "}
-                    {selectedGuild ?
-                        guilds.find((g) => g.name === selectedGuild)?.id
-                    :   "Unknown"}
-                </p>
+                <p>Server Name: {selectedGuild?.name || "Unknown"}</p>
+                <p>Server ID: {selectedGuild ? selectedGuild.id : "Unknown"}</p>
                 <p>
                     Member Count:{" "}
-                    {selectedGuild ?
-                        guilds.find((g) => g.name === selectedGuild)
-                            ?.memberCount
-                    :   "N/A"}
+                    {selectedGuild ? selectedGuild.memberCount : "N/A"}
                 </p>
             </div>
         </div>
