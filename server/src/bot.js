@@ -4,11 +4,9 @@ import { Client, GatewayIntentBits } from "discord.js";
 // You are at risk of DDoS if you allow unlimited bots to connect.
 const BOT_LIMIT = Number(process.env.DC_BRIDGE_BOT_LIMIT) || 3;
 
-// activatedBots now maps socketID -> Discord Client
 const activatedBots = new Map(); // socketID -> Client
-// botCreatedAt maps socketID -> timestamp when the bot was instantiated
 const botCreatedAt = new Map(); // socketID -> number (Date.now())
-const tokenToSocketID = new Map(); // token -> socketID (to prevent duplicate bot connections)
+const tokenToSocketID = new Map(); // token -> socketID
 
 const createBot = async (socketID, token, io) => {
     const existingSocketID = tokenToSocketID.get(token);

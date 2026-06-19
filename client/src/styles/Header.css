@@ -1,6 +1,6 @@
 .header {
     display: grid;
-    grid-template-columns: 200px 1fr 400px 300px;
+    grid-template-columns: 200px 1fr 600px 300px;
     grid-row: 1;
     grid-column: 1 / -1;
     border-bottom: 1px solid var(--border);
@@ -34,7 +34,6 @@
 }
 
 .header > .server-select {
-    display: flex;
     align-items: center;
     grid-row: 1;
     grid-column: 3;

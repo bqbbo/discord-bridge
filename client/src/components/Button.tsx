@@ -6,6 +6,13 @@ type TextInputProps = {
     className?: string;
 };
 
+type DropdownInputProps = {
+    placeholder: string;
+    options: string[];
+    onChange: ((value: string) => void) | undefined;
+    className?: string;
+};
+
 type ButtonProps = {
     text: string;
     onClick: () => void;
@@ -29,6 +36,31 @@ const TextInput = ({ placeholder, onChange, className }: TextInputProps) => {
     );
 };
 
+const DropdownInput = ({
+    placeholder,
+    options,
+    onChange,
+    className,
+}: DropdownInputProps) => {
+    return (
+        <select
+            className={`dropdown-input component-input ${className || ""}`}
+            onChange={(e) => onChange && onChange(e.target.value)} // Call useState setter provided by parent component
+        >
+            {options.map((option, index) => (
+                <option key={index} value={option}>
+                    {option}
+                </option>
+            ))}
+            {options.length === 0 && (
+                <option value="" disabled>
+                    {placeholder}
+                </option>
+            )}
+        </select>
+    );
+};
+
 const Button = ({ text, onClick, className }: ButtonProps) => {
     return (
         <button
@@ -48,4 +80,4 @@ const SocialButton = ({ text, image, link }: SocialButtonProps) => {
     );
 };
 
-export { TextInput, Button, SocialButton };
+export { TextInput, DropdownInput, Button, SocialButton };
