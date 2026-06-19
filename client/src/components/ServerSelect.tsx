@@ -1,4 +1,4 @@
-import { DropdownInput } from "./Button";
+import { Button, DropdownInput } from "./Button";
 
 import "../styles/ServerSelect.css";
 
@@ -13,11 +13,16 @@ const ServerSelect = () => {
                     options={[]}
                     onChange={() => {}}
                 />
+                <Button
+                    className="server-select-refresh-button"
+                    text="Refresh"
+                    onClick={() => {}}
+                />
             </div>
             <div className="server-select-info">
                 <p>Server Name: </p>
-                <p>Permissions: </p>
-                <p>DB ServerID: </p>
+                <p>Member Count: </p>
+                <p>Server ID: </p>
             </div>
         </div>
     );

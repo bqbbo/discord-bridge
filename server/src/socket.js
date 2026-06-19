@@ -27,7 +27,11 @@ const initSocket = (io) => {
                     message: error.message,
                 });
 
-                // Check connection status after 3 seconds to clarify ambiguous error state
+                /*
+                /  Because some errors do not actually bring down the bot,
+                /  we recheck the bot's connection status after a short delay to determine if it is truly disconnected.
+                */
+
                 setTimeout(() => {
                     const isConnected = isBotConnected(socket.id);
                     const finalStatus =
@@ -52,18 +56,90 @@ const initSocket = (io) => {
         });
 
         socket.on("ping:request", (clientTs) => {
-            const client = getBot(socket.id); // returns Discord Client
+            const client = getBot(socket.id);
+
+            /*
+            /  This implementation uses the 5s ping interval provided by the client
+            /  to determine if the bot connection is healthy. The server will reverify
+            /  the bot's connection status on each ping request to catch any mid-session disconnects,
+            /  then will resume with the regular ping response if the connection is healthy.
+            /  The bot has a 3s grace period (implementation above) after an error is detected before a disconnect is reported.
+            */
+
+            const isConnected = client && client.isReady && client.isReady();
+            if (!isConnected && client) {
+                // Verify the connection existed in the first place
+
+                // Notify client that the bot connection appears down
+                socket.emit("bot:status", {
+                    status: "error",
+                    message: "Bot not connected",
+                });
+
+                // Reset to null on a Bot disconnect so UI updates correctly
+                socket.emit("ping:response", {
+                    clientTs,
+                    serverTs: Date.now(),
+                    discordPing: null,
+                });
+                return;
+            }
+
             // discord.js may report -1 when ping is not yet available; normalize to null
             let discordPing = null;
             const raw = client?.ws?.ping;
             if (typeof raw === "number" && raw >= 0) {
                 discordPing = raw;
             }
+
             socket.emit("ping:response", {
                 clientTs,
                 serverTs: Date.now(),
                 discordPing,
             });
+        });
+
+        socket.on("bot:getGuilds", async () => {
+            try {
+                const client = getBot(socket.id);
+
+                const guilds = client.guilds.cache.map((g) => {
+                    const guild = {
+                        id: g.id,
+                        name: g.name,
+                        iconURL:
+                            typeof g.iconURL === "function" ?
+                                g.iconURL({ size: 64 })
+                            :   null,
+                    };
+                    if (typeof g.memberCount === "number")
+                        guild.memberCount = g.memberCount;
+                    return guild;
+                });
+
+                socket.emit("bot:guilds", {
+                    status: "ok",
+                    guilds,
+                });
+
+                // Instead of hijacking the original status socket, we just emit another one separately
+                socket.emit("bot:status", {
+                    status: "update",
+                    message: `Fetched ${guilds.length} guild(s)`,
+                });
+            } catch (err) {
+                const msg = err?.message || String(err);
+                socket.emit("bot:guilds", {
+                    status: "error",
+                    message: msg,
+                    guilds: [],
+                });
+
+                socket.emit("bot:status", {
+                    status: "error",
+                    message: msg,
+                });
+            }
         });
 
         socket.on("disconnect", async () => {

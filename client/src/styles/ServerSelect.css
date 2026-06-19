@@ -27,3 +27,7 @@
     flex-direction: column;
     gap: 5px;
 }
+
+.server-select > .server-select-input > .server-select-refresh-button {
+    border-left: none;
+}
