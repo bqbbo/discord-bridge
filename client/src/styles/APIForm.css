@@ -1,7 +1,7 @@
 .api-form {
     display: grid;
     align-items: center;
-    grid-template-columns: 1fr 150px;
+    grid-template-columns: 1fr 275px;
     border-top: 1px solid var(--border);
     border-right: 1px solid var(--border);
 }
@@ -28,7 +28,8 @@
 }
 
 .api-form > .api-form-info {
+    font-size: 14px;
     display: flex;
     flex-direction: column;
-    padding: 16px;
+    padding-left: 16px;
 }

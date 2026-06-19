@@ -5,13 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import {
-    activatedBots,
-    createBot,
-    destroyBot,
-    isBotConnected,
-    getBot,
-} from "./bot.js";
+import { initSocket } from "./socket.js";
 
 dotenv.config();
 
@@ -52,47 +46,7 @@ if (isProd) {
     app.use(vite.middlewares);
 }
 
-io.on("connection", (socket) => {
-    console.log(`User connected: IP ${socket.handshake.address}`);
-
-    socket.on("bot:connect", async (token) => {
-        console.log(`Attempting to connect bot: ${token}`);
-        socket.emit("bot:status", { status: "connecting" });
-        try {
-            const clientBot = await createBot(socket.id, token, io);
-            socket.emit("bot:status", {
-                status: "connected",
-                tag: clientBot.user.tag,
-            });
-        } catch (error) {
-            console.error("Error connecting bot:", error);
-            socket.emit("bot:status", {
-                status: "error",
-                message: error.message,
-            });
-
-            // Check connection status after 3 seconds to clarify ambiguous error state
-            setTimeout(() => {
-                const isConnected = isBotConnected(socket.id);
-                const finalStatus = isConnected ? "connected" : "disconnected";
-                const bot = getBot(socket.id);
-
-                socket.emit("bot:status", {
-                    status: finalStatus,
-                    tag: isConnected ? bot.user.tag : undefined,
-                    message: isConnected ? undefined : "Bot failed to connect.",
-                });
-            }, 3000);
-        }
-
-        console.log(`Current bots: ${[...activatedBots.keys()]}`);
-    });
-
-    socket.on("disconnect", async () => {
-        await destroyBot(socket.id, io);
-        console.log(`User disconnected: IP ${socket.handshake.address}`);
-    });
-});
+initSocket(io);
 
 server.listen(PORT, () => {
     console.log(`Discord Bridge listening on port ${PORT}`);

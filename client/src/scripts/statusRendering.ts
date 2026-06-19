@@ -15,4 +15,11 @@ const headerStatusIcon = (status: Statuses) => {
     }
 };
 
-export { headerStatus, headerStatusIcon };
+const APIFormUser = (status: Statuses) => {
+    if (status.status === "connected" || status.status === "update") {
+        return status.tag;
+    }
+    return "Unknown";
+};
+
+export { headerStatus, headerStatusIcon, APIFormUser };

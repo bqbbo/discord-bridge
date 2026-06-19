@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import handleStatusChange from "./scripts/status";
 import { useEffect } from "react";
 import { botSocket } from "./scripts/botSocket";
+import { Statuses } from "./types/statuses";
 import { useStatus } from "./contexts/StatusContext";
 
 import "./styles/App.css";
@@ -22,12 +23,14 @@ const App = () => {
     */
 
     useEffect(() => {
-        botSocket.on("bot:status", (update) => {
+        const onStatus = (update: Statuses) => {
             handleStatusChange(update, setStatus);
-        });
+        };
+
+        botSocket.on("bot:status", onStatus);
 
         return () => {
-            botSocket.off("bot:status");
+            botSocket.off("bot:status", onStatus);
         };
     }, [setStatus]);
 

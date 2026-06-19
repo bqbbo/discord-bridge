@@ -1,7 +1,7 @@
 import ServerSelect from "./ServerSelect";
 import MiscButtons from "./MiscButtons";
 
-import { headerStatus, headerStatusIcon } from "../scripts/headerStatus";
+import { headerStatus, headerStatusIcon } from "../scripts/statusRendering";
 import useStatus from "../contexts/StatusContext";
 
 import "../styles/Header.css";

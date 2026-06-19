@@ -1,17 +1,17 @@
 import { Client, GatewayIntentBits } from "discord.js";
 
-const activatedBots = new Map(); // socketID -> client's bot instance
+// activatedBots now maps socketID -> Discord Client
+const activatedBots = new Map(); // socketID -> Client
+// botCreatedAt maps socketID -> timestamp when the bot was instantiated
+const botCreatedAt = new Map(); // socketID -> number (Date.now())
 const tokenToSocketID = new Map(); // token -> socketID (to prevent duplicate bot connections)
 
 const createBot = async (socketID, token, io) => {
-    // Check if this token is already in use by another socket
     const existingSocketID = tokenToSocketID.get(token);
     if (existingSocketID && existingSocketID !== socketID) {
-        // Destroy the old connection using this token
         await destroyBot(existingSocketID, io);
     }
 
-    // Destroy any existing bot for this socket before creating a new one
     await destroyBot(socketID, io);
 
     const bot = new Client({
@@ -31,22 +31,27 @@ const createBot = async (socketID, token, io) => {
     }
 
     activatedBots.set(socketID, bot);
+    botCreatedAt.set(socketID, Date.now());
     tokenToSocketID.set(token, socketID);
     return bot;
 };
 
 const destroyBot = async (socketID, io) => {
-    const bot = activatedBots.get(socketID);
-    if (bot) {
-        // Find and remove the token mapping for this bot
+    const client = activatedBots.get(socketID);
+    if (client) {
+        // Remove token mapping for this socketID
         for (const [token, id] of tokenToSocketID.entries()) {
             if (id === socketID) {
                 tokenToSocketID.delete(token);
                 break;
             }
         }
-        await bot.destroy();
+
+        if (client && typeof client.destroy === "function") {
+            await client.destroy();
+        }
         activatedBots.delete(socketID);
+        botCreatedAt.delete(socketID);
 
         // Emit status change to the socket if io instance is provided
         if (io) {
@@ -58,13 +63,27 @@ const destroyBot = async (socketID, io) => {
     }
 };
 
+const getUptime = (socketID) => {
+    const createdAt = botCreatedAt.get(socketID);
+    if (!createdAt) return null;
+    return Date.now() - createdAt;
+};
+
 const isBotConnected = (socketID) => {
-    const bot = activatedBots.get(socketID);
-    return bot && bot.isReady && bot.isReady();
+    const client = activatedBots.get(socketID);
+    return client && client.isReady && client.isReady();
 };
 
 const getBot = (socketID) => {
     return activatedBots.get(socketID);
 };
 
-export { activatedBots, createBot, destroyBot, isBotConnected, getBot };
+export {
+    activatedBots,
+    botCreatedAt,
+    createBot,
+    destroyBot,
+    isBotConnected,
+    getBot,
+    getUptime,
+};

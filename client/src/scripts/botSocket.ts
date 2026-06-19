@@ -8,4 +8,8 @@ const handleConnect = async (token: string) => {
     botSocket.emit("bot:connect", token);
 };
 
-export { botSocket, handleConnect };
+const getSocketID = () => {
+    return botSocket.id || "Unknown";
+};
+
+export { botSocket, getSocketID, handleConnect };
