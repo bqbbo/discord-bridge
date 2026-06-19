@@ -45,18 +45,25 @@ const DropdownInput = ({
     return (
         <select
             className={`dropdown-input component-input ${className || ""}`}
+            defaultValue=""
             onChange={(e) => onChange && onChange(e.target.value)} // Call useState setter provided by parent component
         >
-            {options.map((option, index) => (
-                <option key={index} value={option}>
-                    {option}
-                </option>
-            ))}
-            {options.length === 0 && (
+            {/* Default option on page load */}
+            <option value="" disabled hidden>
+                Select a server.
+            </option>
+
+            {/* If there are no options, show a visible disabled message */}
+            {options.length === 0 ?
                 <option value="" disabled>
                     {placeholder}
                 </option>
-            )}
+            :   options.map((option, index) => (
+                    <option key={index} value={option}>
+                        {option}
+                    </option>
+                ))
+            }
         </select>
     );
 };
