@@ -138,9 +138,12 @@ const initSocket = (io) => {
                 socket.emit("bot:status", {
                     status: "update",
                     message: `Fetched ${guilds.length} guild(s)`,
+                    tag: client.user?.tag,
                 });
             } catch (err) {
                 const msg = err?.message || String(err);
+                // Should the error status emit the tag?
+                // Should we only emit connect/disconnect status and have update/error/connecting be separate and only emit messages on the update/error ones?
                 socket.emit("bot:guilds", {
                     status: "error",
                     message: msg,

@@ -18,7 +18,7 @@ const APIForm = () => {
         const onStatus = (update: Statuses) => {
             if (update.status === "connected") {
                 setUptime(0);
-            } else {
+            } else if (update.status === "disconnected") {
                 setUptime(null);
             }
         };

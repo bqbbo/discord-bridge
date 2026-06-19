@@ -16,8 +16,7 @@ const ServerSelect = () => {
     const doFetchGuilds = useCallback(() => {
         fetchGuilds(status, (response) => {
             // Don't check response status because an error state would be automatically emitted by the server
-            console.log("Fetched guilds:", response.guilds);
-            setSelectedGuildId(null);
+            setSelectedGuildId(null); // Reset to default option on every refresh
             setGuilds(response.guilds);
         });
     }, [status]);
