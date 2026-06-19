@@ -51,6 +51,21 @@ const initSocket = (io) => {
             socket.emit("bot:uptime", { uptime });
         });
 
+        socket.on("ping:request", (clientTs) => {
+            const client = getBot(socket.id); // returns Discord Client
+            // discord.js may report -1 when ping is not yet available; normalize to null
+            let discordPing = null;
+            const raw = client?.ws?.ping;
+            if (typeof raw === "number" && raw >= 0) {
+                discordPing = raw;
+            }
+            socket.emit("ping:response", {
+                clientTs,
+                serverTs: Date.now(),
+                discordPing,
+            });
+        });
+
         socket.on("disconnect", async () => {
             await destroyBot(socket.id, io);
             console.log(`User disconnected: IP ${socket.handshake.address}`);

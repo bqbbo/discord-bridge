@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Button, TextInput } from "./Button";
 import { botSocket, handleConnect, getSocketID } from "../scripts/botSocket";
 
-import { APIFormUser } from "../scripts/statusRendering";
 import useStatus from "../contexts/StatusContext";
+import { APIFormUser } from "../scripts/statusRendering";
 import { Statuses } from "../types/statuses";
 
 import "../styles/APIForm.css";
@@ -11,15 +11,15 @@ import "../styles/APIForm.css";
 const APIForm = () => {
     const { status } = useStatus();
     const [token, setToken] = useState("");
-    const [uptime, setUptime] = useState(0);
+    const [uptime, setUptime] = useState<number | null>(null);
     const [socketID, setSocketID] = useState(getSocketID());
 
     useEffect(() => {
         const onStatus = (update: Statuses) => {
             if (update.status === "connected") {
-                setUptime(1); // Typing workaround
-            } else {
                 setUptime(0);
+            } else {
+                setUptime(null);
             }
         };
 
@@ -31,7 +31,7 @@ const APIForm = () => {
         botSocket.on("disconnect", onDisconnect);
 
         const uptimeInterval = setInterval(() => {
-            setUptime((prev) => (prev === 0 ? 0 : prev + 1000));
+            setUptime((prev) => (prev === null ? null : prev + 1000));
         }, 1000);
 
         return () => {
@@ -61,7 +61,7 @@ const APIForm = () => {
                 <p>Socket ID: {socketID}</p>
                 <p>
                     Uptime:{" "}
-                    {uptime !== 0 ? `${Math.floor(uptime / 1000)}s` : "N/A"}
+                    {uptime !== null ? `${Math.floor(uptime / 1000)}s` : "N/A"}
                 </p>
             </div>
         </div>
